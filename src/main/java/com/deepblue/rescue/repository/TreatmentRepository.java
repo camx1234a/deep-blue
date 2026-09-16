@@ -10,6 +10,8 @@ import org.springframework.data.repository.query.Param;
 import com.deepblue.rescue.domain.Treatment;
 
 public interface TreatmentRepository extends JpaRepository<Treatment, Long> {
+
+    List<Treatment> findByAnimalAnimalCodeOrderByPerformedAtAsc(String animalCode);
     
     // Query Method simple
     List<Treatment> findByAnimalIdOrderByPerformedAtAsc(Long animalId);
