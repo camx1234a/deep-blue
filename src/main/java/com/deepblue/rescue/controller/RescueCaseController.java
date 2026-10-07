@@ -29,23 +29,21 @@ public class RescueCaseController {
 
 	@GetMapping("/{caseCode}")
 	public ResponseEntity<RescueCaseResponse> findByCode(
-			@PathVariable String caseCode
-	) {
+			@PathVariable String caseCode) {
 		return ResponseEntity.ok(service.findByCode(caseCode));
 	}
 
 	@GetMapping
 	public ResponseEntity<List<RescueCaseResponse>> findByStatus(
-			@RequestParam RescueStatus status
-	) {
+			@RequestParam RescueStatus status) {
 		return ResponseEntity.ok(service.findByStatus(status));
 	}
 
 	@PatchMapping("/{caseCode}/status")
 	public ResponseEntity<RescueCaseResponse> changeStatus(
 			@PathVariable String caseCode,
-			@Valid @RequestBody ChangeRescueStatusRequest request
-	) {
+			@Valid @RequestBody ChangeRescueStatusRequest request) {
 		return ResponseEntity.ok(service.changeStatus(caseCode, request));
 	}
+
 }
