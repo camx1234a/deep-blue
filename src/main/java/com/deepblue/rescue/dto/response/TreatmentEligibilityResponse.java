@@ -1,5 +1,7 @@
 package com.deepblue.rescue.dto.response;
 
-public class TreatmentEligibilityResponse {
-    
+public record TreatmentEligibilityResponse(
+	String animalCode,
+	boolean eligible
+) {
 }
