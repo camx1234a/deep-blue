@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -56,7 +55,7 @@ public class GlobalExceptionHandler {
 				.getFieldErrors()
 				.stream()
 				.collect(Collectors.toMap(
-						FieldError::getField,
+						fieldError -> fieldError.getField(),
 						fieldError -> fieldError.getDefaultMessage() == null
 								? "Invalid value"
 								: fieldError.getDefaultMessage(),
