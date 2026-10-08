@@ -42,4 +42,3 @@ Content-Type: application/json
 
 ### Operacion 7  - Consultar animal inexistente (404 Not Found)
 GET http://localhost:8080/api/animals/AN-999
- `409 Conflict` o `404 Not Found`) y el cuerpo JSON respectivo[cite: 46, 47, 48].
