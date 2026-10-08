@@ -155,6 +155,39 @@ class RescueCaseControllerTest {
                 .andExpect(jsonPath("$.details").isMap());
     }
 
+    @Test
+    void shouldReturn400WhenStatusEnumInJsonIsInvalid() throws Exception {
+        mockMvc.perform(patch("/api/rescue-cases/{code}/status", "RES-001")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "status": "FLYING"
+                                }
+                                """))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.status").value(400))
+                .andExpect(jsonPath("$.error").value("Bad Request"))
+                .andExpect(jsonPath("$.message").value("Malformed or invalid JSON request"))
+                .andExpect(jsonPath("$.details.body").value("Check JSON syntax and enum values"));
+
+        verify(service, never()).changeStatus(anyString(), any());
+    }
+
+    @Test
+    void shouldReturn500WhenUnexpectedExceptionOccurs() throws Exception {
+        when(service.findByCode("RES-500"))
+                .thenThrow(new IllegalStateException("Sensitive database details"));
+
+        mockMvc.perform(get("/api/rescue-cases/{caseCode}", "RES-500"))
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.status").value(500))
+                .andExpect(jsonPath("$.error").value("Internal Server Error"))
+                .andExpect(jsonPath("$.message").value("An unexpected error occurred"))
+                .andExpect(jsonPath("$.details").isMap());
+
+        verify(service).findByCode("RES-500");
+    }
+
     private RescueCaseResponse rescueCase(RescueStatus rescueStatus) {
         return new RescueCaseResponse(
                 1L,
