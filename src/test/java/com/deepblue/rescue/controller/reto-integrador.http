@@ -1,0 +1,44 @@
+### Operacion 1 - Consultar caso existente (200 OK)
+GET http://localhost:8080/api/rescue-cases/RES-2026-100
+
+### Operacion 2  - Consultar animal existente (200 OK)
+GET http://localhost:8080/api/animals/AN-2026-100
+
+### Operacion 3 - Registrar tratamiento (201 Created)
+POST http://localhost:8080/api/treatments
+Content-Type: application/json
+
+{
+  "animalCode": "AN-2026-100",
+  "specialistCode": "SPEC-001",
+  "performedAt": "2026-08-21T09:00:00",
+  "type": "WOUND_CARE",
+  "description": "Cleaning of left front flipper injury."
+}
+
+### Operacion 4  - Cambiar status a READY_FOR_RELEASE (200 OK)
+PATCH http://localhost:8080/api/rescue-cases/RES-2026-100/status
+Content-Type: application/json
+
+{
+  "status": "READY_FOR_RELEASE"
+}
+
+### Operacion 5 - Enviar status null (400 Bad Request)
+PATCH http://localhost:8080/api/rescue-cases/RES-2026-100/status
+Content-Type: application/json
+
+{
+  "status": null
+}
+
+### Operacion 6  - Transición inválida (409 Conflict)
+PATCH http://localhost:8080/api/rescue-cases/RES-2026-100/status
+Content-Type: application/json
+
+{
+  "status": "ADMITTED"
+}
+
+### Operacion 7  - Consultar animal inexistente (404 Not Found)
+GET http://localhost:8080/api/animals/AN-999
